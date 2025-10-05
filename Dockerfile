@@ -10,7 +10,8 @@ RUN apt update && apt install -y sudo \
 	&& 	apt install -y repo gawk wget git diffstat unzip gcc build-essential cpio python3 python3-pip \
 		xz-utils debianutils python3-git libsdl1.2-dev xterm zstd tar python-is-python3 vim \
 	&& 	apt install -y lib32stdc++6 libncurses6 checkinstall libssl-dev libsqlite3-dev libgdbm-dev \
-		libc6-dev libbz2-dev libffi-dev libgmp3-dev libmpfr-dev texinfo flex bison curl locales ssh
+		libc6-dev libbz2-dev libffi-dev libgmp3-dev libmpfr-dev texinfo flex bison curl locales ssh \
+		clang-20 llvm-20 lld-20 lldb-20
 
 RUN locale-gen en_US.UTF-8
 RUN update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
