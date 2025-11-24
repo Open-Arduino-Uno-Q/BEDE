@@ -4,12 +4,12 @@
 # Wriiten by Nakada Tokumei #
 #############################
 
-echo 'echo $(pwd) > $HOME/.none_builder/directory'
+echo 'echo $(pwd) > $HOME/.unoq_builder/directory'
 
-if [ ! -f $HOME/.none_builder/directory ]; then
-    mkdir $HOME/.none_builder/
-    mkdir -p $HOME/.none_builder/pkg
-    touch $HOME/.none_builder/directory
+if [ ! -f $HOME/.unoq_builder/directory ]; then
+    mkdir $HOME/.unoq_builder/
+    mkdir -p $HOME/.unoq_builder/pkg
+    touch $HOME/.unoq_builder/directory
 fi
 
-echo $(pwd) > $HOME/.none_builder/directory
+echo $(pwd) > $HOME/.unoq_builder/directory

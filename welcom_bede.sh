@@ -7,7 +7,7 @@ echo "#####################"
 
 user_uid=$(id -u)
 user_gid=$(id -g)
-docker_name="none_builder_${user_uid}_${user_gid}"
+docker_name="unoq_builder_${user_uid}_${user_gid}"
 workspace_dir=""
 
 launch_docker="false"
@@ -15,31 +15,31 @@ terminate_docker="false"
 
 
 function update_workspace_path() {
-	if [ -f $HOME/.none_builder/directory ];then
-        	workspace_dir=`cat $HOME/.none_builder/directory`
+	if [ -f $HOME/.unoq_builder/directory ];then
+        	workspace_dir=`cat $HOME/.unoq_builder/directory`
 	fi
 }
 
 function run_docker() {
-    echo 'sudo docker run --privileged -h none_builder --name ${docker_name} -t -it -d -p 12345 -v $HOME/.none_builder/go:/usr/local/go -v $HOME/.none_builder/pkg:/pkg -v $HOME/.ssh:/home/nonebuild/.ssh -v $workspace_dir:/home/nonebuild/workspace -v /dev/:/dev -v /run/udev:/run/udev none_builder:24.04 /usr/sbin/sshd -D'
-    sudo docker run --privileged -h none_builder --name ${docker_name} -t -it -d -p 12345:22 -v $HOME/.none_builder/go:/usr/local/go -v $HOME/.none_builder/pkg:/pkg -v $HOME/.ssh:/home/nonebuild/.ssh -v $workspace_dir:/home/nonebuild/workspace -v /dev/:/dev -v /run/udev:/run/udev none_builder:24.04 /usr/sbin/sshd -D
+    echo 'sudo docker run --privileged -h unoq_builder --name ${docker_name} -t -it -d -p 12346 -v $HOME/.unoq_builder/go:/usr/local/go -v $HOME/.unoq_builder/pkg:/pkg -v $HOME/.ssh:/home/unoqbuild/.ssh -v $workspace_dir:/home/unoqbuild/workspace -v /dev/:/dev -v /run/udev:/run/udev unoq_builder:24.04 /usr/sbin/sshd -D'
+    sudo docker run --privileged -h unoq_builder --name ${docker_name} -t -it -d -p 12346:22 -v $HOME/.unoq_builder/go:/usr/local/go -v $HOME/.unoq_builder/pkg:/pkg -v $HOME/.ssh:/home/unoqbuild/.ssh -v $workspace_dir:/home/unoqbuild/workspace -v /dev/:/dev -v /run/udev:/run/udev unoq_builder:24.04 /usr/sbin/sshd -D
 }
 
 function set_docker_env() {
 	sudo docker exec -it ${docker_name} userdel -r ubuntu
 	sudo docker exec -it ${docker_name} groupdel ubuntu
-	sudo docker exec -it ${docker_name} groupadd -g ${user_gid} nonebuild
-	sudo docker exec -it ${docker_name} useradd -u ${user_uid} -g ${user_gid} -ms /bin/bash nonebuild
-	sudo docker exec -it ${docker_name} chown ${user_uid}:${user_gid} /home/nonebuild
-	sudo docker exec -it ${docker_name} sh -c 'echo "export LC_ALL=en_US.UTF-8" >> /home/nonebuild/.bashrc'
-	sudo docker exec -it ${docker_name} sh -c 'echo "export LANG=en_US.UTF-8" >> /home/nonebuild/.bashrc'
-	sudo docker exec -it ${docker_name} sh -c 'echo "nonebuild:ubuntu" | chpasswd'
-	sudo docker exec -it -u ${user_uid}:${user_gid} -w /home/nonebuild ${docker_name} sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	sudo docker exec -it ${docker_name} groupadd -g ${user_gid} unoqbuild
+	sudo docker exec -it ${docker_name} useradd -u ${user_uid} -g ${user_gid} -ms /bin/bash unoqbuild
+	sudo docker exec -it ${docker_name} chown ${user_uid}:${user_gid} /home/unoqbuild
+	sudo docker exec -it ${docker_name} sh -c 'echo "export LC_ALL=en_US.UTF-8" >> /home/unoqbuild/.bashrc'
+	sudo docker exec -it ${docker_name} sh -c 'echo "export LANG=en_US.UTF-8" >> /home/unoqbuild/.bashrc'
+	sudo docker exec -it ${docker_name} sh -c 'echo "unoqbuild:ubuntu" | chpasswd'
+	sudo docker exec -it -u ${user_uid}:${user_gid} -w /home/unoqbuild ${docker_name} sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 function exec_docker() {
-	echo "sudo docker exec -it -u ${user_uid}:${user_gid} -w /home/nonebuild ${docker_name} /bin/zsh"
-	sudo docker exec -it -u ${user_uid}:${user_gid} -w /home/nonebuild ${docker_name} /bin/zsh
+	echo "sudo docker exec -it -u ${user_uid}:${user_gid} -w /home/unoqbuild ${docker_name} /bin/zsh"
+	sudo docker exec -it -u ${user_uid}:${user_gid} -w /home/unoqbuild ${docker_name} /bin/zsh
 }
 
 function kill_docker() {

@@ -16,9 +16,9 @@ RUN apt update && apt install -y sudo \
 RUN locale-gen en_US.UTF-8
 RUN update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
-RUN echo "none_builder" > /etc/hostname
+RUN echo "unoq_builder" > /etc/hostname
 
-RUN echo "nonebuild ALL=NOPASSWD: ALL" >> /etc/sudoers
+RUN echo "unoqbuild ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 RUN mkdir /var/run/sshd
 
